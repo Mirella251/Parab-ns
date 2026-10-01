@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz aniversário, pai!</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff3f5;
+  color: #68434d;
+  font-family: Georgia, serif;
+}
+
+.tela {
+  display: none;
+  min-height: 100vh;
+  padding: 25px 20px 85px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.tela.ativa {
+  display: flex;
+}
+
+h1 {
+  font-size: clamp(32px, 7vw, 55px);
+  margin: 10px 0 25px;
+}
+
+p {
+  font-size: clamp(19px, 4vw, 25px);
+  line-height: 1.5;
+}
+
+img {
+  max-width: 90%;
+  max-height: 45vh;
+  object-fit: contain;
+}
+
+button {
+  border: none;
+  background: #f5b9c8;
+  color: #68434d;
+  padding: 14px 30px;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 12px;
+  box-shadow: 0 4px 0 #df9eae;
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.voltar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* MENU DOS QUATRO SNOOPY */
+
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 190px));
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.item-menu {
+  background: #fff9fa;
+  border: 2px solid #f3c5cf;
+  border-radius: 22px;
+  padding: 12px;
+  min-height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.item-menu img {
+  max-width: 100%;
+  max-height: 145px;
+}
+
+/* FOTO COM O PAI */
+
+.foto-pai {
+  max-height: 55vh;
+  border-radius: 18px;
+}
+
+/* CORAÇÕES */
+
+.grade-coracoes {
+  width: 100%;
+  max-width: 850px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(145px, 1fr));
+  gap: 25px;
+  margin: 20px auto;
+}
+
+.coracao {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coracao::before,
+.coracao::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 78%;
+  background: #f5b5c6;
+  border-radius: 50% 50% 0 0;
+  top: 0;
+}
+
+.coracao::before {
+  left: 50%;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.coracao::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.coracao span {
+  position: relative;
+  z-index: 1;
+  width: 75%;
+  margin-top: 15%;
+  font-size: clamp(13px, 2.5vw, 17px);
+  line-height: 1.25;
+  color: #713d4b;
+  font-weight: bold;
+}
+
+/* TELA DO CONFETE */
+
+.google-texto {
+  font-size: clamp(24px, 5vw, 38px);
+  max-width: 700px;
+}
+
+.confete {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 35px;
+  background: #fff9fa;
+  border: 2px solid #f3c5cf;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+  padding: 0;
+  box-shadow: none;
+  z-index: 3;
+}
+
+.explosao {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background-color: #fff0f4;
+  background-image:
+    radial-gradient(circle at 15% 20%, #ff8da8 0 7px, transparent 8px),
+    radial-gradient(circle at 75% 18%, #ffd166 0 8px, transparent 9px),
+    radial-gradient(circle at 30% 70%, #a6d8d5 0 7px, transparent 8px),
+    radial-gradient(circle at 85% 75%, #c5a5e8 0 8px, transparent 9px),
+    radial-gradient(circle at 55% 45%, #ffb36b 0 7px, transparent 8px),
+    radial-gradient(circle at 10% 85%, #f49bb5 0 8px, transparent 9px),
+    radial-gradient(circle at 90% 45%, #a6d8d5 0 7px, transparent 8px),
+    radial-gradient(circle at 45% 15%, #c5a5e8 0 8px, transparent 9px);
+  animation: cobrir 1.5s forwards;
+}
+
+.explosao.ativa {
+  display: block;
+}
+
+@keyframes cobrir {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.revelacao {
+  display: none;
+  max-height: 55vh;
+  border-radius: 18px;
+}
+
+.revelacao.visivel {
+  display: block;
+}
+
+.google-texto.escondido,
+.confete.escondido {
+  display: none;
+}
+
+/* CARTINHA */
+
+.carta {
+  background: #fffaf0;
+  border: 2px solid #e9c8a6;
+  border-radius: 8px;
+  width: min(90%, 600px);
+  padding: 35px 28px;
+  box-shadow: 0 8px 20px #d9b6aa55;
+  text-align: left;
+  line-height: 1.8;
+  font-size: clamp(18px, 4vw, 22px);
+  white-space: pre-line;
+}
+
+@media (max-width: 420px) {
+  .menu {
+    gap: 12px;
+  }
+
+  .item-menu {
+    min-height: 135px;
+  }
+
+  .item-menu img {
+    max-height: 120px;
+  }
+
+  .grade-coracoes {
+    gap: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TELA 1: CAPA -->
+<section class="tela ativa" id="capa">
+  <h1>Feliz aniversário!</h1>
+  <img src="imagens/snoopy-capa.png" alt="Snoopy de aniversário com Woodstock">
+  <button onclick="mostrarTela('mensagem')">Vamos lá</button>
+</section>
+
+<!-- TELA 2: MENSAGEM -->
+<section class="tela" id="mensagem">
+  <img src="imagens/snoopy-laco.png" alt="Snoopy com laço">
+  <p>Por mais que o maior presente que você possa ganhar seja eu, eu preparei outra coisa.</p>
+  <button onclick="mostrarTela('menu')">Continuar</button>
+</section>
+
+<!-- MENU DOS QUATRO SNOOPY -->
+<section class="tela" id="menu">
+  <div class="menu">
+    <div class="item-menu" onclick="mostrarTela('foto')">
+      <img src="imagens/snoopy-menu-1.png" alt="Snoopy 1">
+    </div>
+
+    <div class="item-menu" onclick="mostrarTela('coracoes')">
+      <img src="imagens/snoopy-menu-2.png" alt="Snoopy 2">
+    </div>
+
+    <div class="item-menu" onclick="mostrarTela('google')">
+      <img src="imagens/snoopy-menu-3.png" alt="Snoopy 3">
+    </div>
+
+    <div class="item-menu" onclick="mostrarTela('carta')">
+      <img src="imagens/snoopy-menu-4.png" alt="Snoopy 4">
+    </div>
+  </div>
+</section>
+
+<!-- PRIMEIRO SNOOPY: FOTO COM O PAI -->
+<section class="tela" id="foto">
+  <img class="foto-pai" src="imagens/foto-pai-filha.png" alt="Foto com meu pai">
+  <h1>Você é o melhor pai do mundo</h1>
+  <button class="voltar" onclick="mostrarTela('menu')">Voltar</button>
+</section>
+
+<!-- SEGUNDO SNOOPY: CORAÇÕES -->
+<section class="tela" id="coracoes">
+  <div class="grade-coracoes">
+    <div class="coracao"><span>eu te amo</span></div>
+    <div class="coracao"><span>melhor pai do mundo</span></div>
+    <div class="coracao"><span>estar com você deixa meu dia mais colorido</span></div>
+    <div class="coracao"><span>você é uma das pessoas mais especiais pra mim</span></div>
+    <div class="coracao"><span>se tivesse que te dar uma nota de 1 a 10 vc seria 1000</span></div>
+    <div class="coracao"><span>Que vc seja mais feliz a cada dia que passa</span></div>
+  </div>
+  <button class="voltar" onclick="mostrarTela('menu')">Voltar</button>
+</section>
+
+<!-- TERCEIRO SNOOPY: CONFETE -->
+<section class="tela" id="google">
+  <p class="google-texto" id="googleTexto">Eu não preciso de Google nem ChatGPT</p>
+
+  <button class="confete" id="botaoConfete" onclick="soltarConfete()" aria-label="Soltar confete">🎉</button>
+
+  <div class="explosao" id="explosao"></div>
+
+  <img
+    class="revelacao"
+    id="revelacao"
+    src="imagens/revelacao-gatinhos.png"
+    alt="Imagem da surpresa"
+  >
+
+  <button class="voltar" onclick="mostrarTela('menu')">Voltar</button>
+</section>
+
+<!-- QUARTO SNOOPY: CARTINHA -->
+<section class="tela" id="carta">
+  <div class="carta">Pai feliz aniversário muitos anos de vida que Deus te abençoe e que eu possa ficar do seu lado pra sempre,
+você é uma das pessoas mais maravilhosas que conheço,
+você é meu ponto seguro, meu melhor amigo e a cima de tudo meu pai
+
+Bjs te amo parabéns</div>
+
+  <button class="voltar" onclick="mostrarTela('menu')">Voltar</button>
+</section>
+
+<script>
+function mostrarTela(id) {
+  document.querySelectorAll('.tela').forEach(function(tela) {
+    tela.classList.remove('ativa');
+  });
+
+  document.getElementById(id).classList.add('ativa');
+
+  // Ao voltar para a tela do confete, deixa a surpresa pronta para repetir.
+  if (id === 'google') {
+    document.getElementById('googleTexto').classList.remove('escondido');
+    document.getElementById('botaoConfete').classList.remove('escondido');
+    document.getElementById('revelacao').classList.remove('visivel');
+  }
+}
+
+function soltarConfete() {
+  const explosao = document.getElementById('explosao');
+  const texto = document.getElementById('googleTexto');
+  const botao = document.getElementById('botaoConfete');
+  const revelacao = document.getElementById('revelacao');
+
+  texto.classList.add('escondido');
+  botao.classList.add('escondido');
+  revelacao.classList.remove('visivel');
+
+  explosao.classList.remove('ativa');
+  void explosao.offsetWidth;
+  explosao.classList.add('ativa');
+
+  setTimeout(function() {
+    explosao.classList.remove('ativa');
+    revelacao.classList.add('visivel');
+  }, 1500);
+}
+</script>
+
+</body>
+</html>
